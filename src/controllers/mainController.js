@@ -12,7 +12,8 @@ const controller = {
 		const visited = products.filter(product=>product.category==='visited')
 		return res.render('index',{
 			inSale,
-			visited
+			visited,
+			toThousand
 		})
 	
 	},
