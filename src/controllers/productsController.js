@@ -52,7 +52,10 @@ const controller = {
 					category
 				}
 			}
+			return product
 		})
+		fs.writeFileSync(path.join(__dirname,'..','data','productsDataBase.json'),JSON.stringify(productModify,null,3),'utf-8')
+		return res.redirect('/')
 	},
 
 	// Delete - Delete one product from DB
