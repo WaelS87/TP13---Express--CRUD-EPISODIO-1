@@ -5,7 +5,12 @@ const toThousand = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 const controller = {
 	// Root - Show all products
 	index: (req, res) => {
-		// Do the magic
+		const products=loadProduct();
+		return res.render('products',{
+			products,
+			toThousand
+		})
+
 	},
 
 	// Detail - Detail from one product
@@ -20,12 +25,27 @@ const controller = {
 
 	// Create - Form to create
 	create: (req, res) => {
-		// Do the magic
+		return res.render('product-create-form',{
+
+		})
 	},
 	
 	// Create -  Method to store
 	store: (req, res) => {
-		// Do the magic
+		const{name,discount,price,category,description}=req.body
+		const products=loadProduct()
+		const newproduct={
+			id:(products[products.length-1].id+1),
+			name:name.trim(),
+			description:description.trim(),
+			price:+price,
+			discount:+discount,
+			category,
+			image:'default-image.png'
+		}
+		const productsModify=[...products,newproduct]
+		storeProduct(productsModify)
+		return res.redirect('/products')
 	},
 
 	// Update - Form to edit
@@ -60,7 +80,12 @@ const controller = {
 
 	// Delete - Delete one product from DB
 	destroy : (req, res) => {
-		// Do the magic
+		const{id}=req.params
+		const products=loadProduct()
+		const productModify = products.filter(product=>product.id!==+id) 
+		storeProduct(productModify)
+		return res.redirect('/products')
+		
 	}
 };
 
